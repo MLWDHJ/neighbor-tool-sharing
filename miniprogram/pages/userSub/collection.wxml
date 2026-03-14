@@ -1,0 +1,52 @@
+<view class="container">
+  <!-- 收藏列表 -->
+  <view class="tools-list" wx:if="{{tools.length > 0}}">
+    <view class="tool-card" wx:for="{{tools}}" wx:key="id">
+      <view class="tool-main" bindtap="goToDetail" data-id="{{item.id}}">
+        <image class="tool-image" src="{{item.images[0]}}" mode="aspectFill" />
+        <view class="tool-info">
+          <view class="tool-name">{{item.name}}</view>
+          <view class="tool-owner">
+            <image class="owner-avatar" src="{{item.ownerAvatar}}" />
+            <text class="owner-name">{{item.ownerNickname}}</text>
+          </view>
+          <view class="tool-meta">
+            <view class="tool-price">
+              <text wx:if="{{item.isFree}}" class="free-tag">免费</text>
+              <text wx:else class="price-text">¥{{item.rentFee}}/天</text>
+            </view>
+            <view class="tool-distance" wx:if="{{item.distance}}">
+              <text>{{item.distance}}km</text>
+            </view>
+          </view>
+          <view class="tool-status {{item.status === 'available' ? 'available' : 'unavailable'}}">
+            {{item.status === 'available' ? '可借用' : '不可借'}}
+          </view>
+        </view>
+      </view>
+      
+      <view class="tool-actions">
+        <view class="action-btn cancel" bindtap="cancelCollection" data-id="{{item.id}}">
+          <text class="action-icon">💔</text>
+          <text>取消收藏</text>
+        </view>
+        <view class="action-btn apply" bindtap="goToDetail" data-id="{{item.id}}" wx:if="{{item.status === 'available'}}">
+          <text class="action-icon">📥</text>
+          <text>申请借用</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && tools.length === 0}}">
+    <text class="empty-icon">❤️</text>
+    <text class="empty-text">还没有收藏任何工具</text>
+    <view class="empty-btn" bindtap="goToHome">去逛逛</view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

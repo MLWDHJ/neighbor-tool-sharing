@@ -1,0 +1,66 @@
+<view class="container">
+  <!-- 已认证状态 -->
+  <view class="verified-state" wx:if="{{isVerified}}">
+    <view class="verified-icon">✓</view>
+    <view class="verified-title">已完成实名认证</view>
+    <view class="verified-desc">您的身份信息已通过验证</view>
+  </view>
+
+  <!-- 未认证状态 -->
+  <view class="verify-form" wx:else>
+    <!-- 提示信息 -->
+    <view class="tips-section">
+      <view class="tips-title">实名认证说明</view>
+      <view class="tips-list">
+        <view class="tips-item">• 实名认证后可提升信用分</view>
+        <view class="tips-item">• 认证信息仅用于身份核验，不会泄露</view>
+        <view class="tips-item">• 请确保照片清晰、完整</view>
+      </view>
+    </view>
+
+    <!-- 身份证上传区域 -->
+    <view class="upload-section">
+      <view class="upload-title">上传身份证照片</view>
+      
+      <!-- 身份证正面 -->
+      <view class="upload-item" bindtap="chooseIdCardFront">
+        <view class="upload-box" wx:if="{{!idCardFront}}">
+          <text class="upload-icon">📷</text>
+          <text class="upload-text">身份证正面</text>
+          <text class="upload-hint">人像面</text>
+        </view>
+        <image class="upload-preview" wx:else src="{{idCardFront}}" mode="aspectFill" />
+        <view class="upload-label">正面（人像面）</view>
+      </view>
+
+      <!-- 身份证反面 -->
+      <view class="upload-item" bindtap="chooseIdCardBack">
+        <view class="upload-box" wx:if="{{!idCardBack}}">
+          <text class="upload-icon">📷</text>
+          <text class="upload-text">身份证反面</text>
+          <text class="upload-hint">国徽面</text>
+        </view>
+        <image class="upload-preview" wx:else src="{{idCardBack}}" mode="aspectFill" />
+        <view class="upload-label">反面（国徽面）</view>
+      </view>
+    </view>
+
+    <!-- 隐私声明 -->
+    <view class="privacy-section">
+      <text class="privacy-text">
+        提交即表示您同意我们根据《隐私政策》处理您的身份信息
+      </text>
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <button 
+        class="submit-btn {{isSubmitting ? 'disabled' : ''}}" 
+        bindtap="submitVerify"
+        disabled="{{isSubmitting}}"
+      >
+        {{isSubmitting ? '提交中...' : '提交认证'}}
+      </button>
+    </view>
+  </view>
+</view>

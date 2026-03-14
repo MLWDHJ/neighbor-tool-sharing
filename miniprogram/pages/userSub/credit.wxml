@@ -1,0 +1,84 @@
+<view class="container">
+  <!-- 信用分卡片 -->
+  <view class="credit-card">
+    <view class="credit-score-wrapper">
+      <view class="credit-score">{{creditScore}}</view>
+      <view class="credit-label">信用分</view>
+    </view>
+    <view class="credit-level">
+      <text class="level-text">信用等级：</text>
+      <text class="level-value">{{creditLevel}}</text>
+    </view>
+    <view class="credit-tips">
+      信用分越高，借用工具更容易获得批准
+    </view>
+  </view>
+
+  <!-- 信用说明 -->
+  <view class="info-section">
+    <view class="section-title">信用分说明</view>
+    <view class="info-list">
+      <view class="info-item">
+        <view class="info-icon add">+</view>
+        <view class="info-content">
+          <view class="info-title">按时归还工具</view>
+          <view class="info-desc">每次按时归还可获得 +2 分</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <view class="info-icon add">+</view>
+        <view class="info-content">
+          <view class="info-title">获得好评</view>
+          <view class="info-desc">每次获得好评可获得 +1 分</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <view class="info-icon add">+</view>
+        <view class="info-content">
+          <view class="info-title">完成实名认证</view>
+          <view class="info-desc">完成实名认证可获得 +5 分</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <view class="info-icon minus">-</view>
+        <view class="info-content">
+          <view class="info-title">逾期归还</view>
+          <view class="info-desc">逾期归还将扣除 -5 分</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <view class="info-icon minus">-</view>
+        <view class="info-content">
+          <view class="info-title">损坏工具</view>
+          <view class="info-desc">损坏工具将扣除 -10 分</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 信用历史 -->
+  <view class="history-section">
+    <view class="section-title">信用记录</view>
+    
+    <view class="history-list" wx:if="{{creditHistory.length > 0}}">
+      <view class="history-item" wx:for="{{creditHistory}}" wx:key="id">
+        <view class="history-left">
+          <view class="history-reason">{{item.reason}}</view>
+          <view class="history-time">{{item.createTime}}</view>
+        </view>
+        <view class="history-right {{item.changeAmount > 0 ? 'positive' : 'negative'}}">
+          {{item.changeAmount > 0 ? '+' : ''}}{{item.changeAmount}}
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{!loading && creditHistory.length === 0}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无信用记录</text>
+    </view>
+
+    <view class="loading-state" wx:if="{{loading}}">
+      <text class="loading-text">加载中...</text>
+    </view>
+  </view>
+</view>

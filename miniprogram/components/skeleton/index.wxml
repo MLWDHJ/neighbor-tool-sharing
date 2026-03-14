@@ -1,0 +1,38 @@
+<view class="skeleton" wx:if="{{loading}}">
+  <!-- 列表骨架屏 -->
+  <block wx:if="{{type === 'list'}}">
+    <view class="skeleton-item" wx:for="{{items}}" wx:key="index">
+      <view class="skeleton-image skeleton-animate"></view>
+      <view class="skeleton-content">
+        <view class="skeleton-title skeleton-animate"></view>
+        <view class="skeleton-text skeleton-animate"></view>
+        <view class="skeleton-text short skeleton-animate"></view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 详情骨架屏 -->
+  <block wx:if="{{type === 'detail'}}">
+    <view class="skeleton-detail-image skeleton-animate"></view>
+    <view class="skeleton-detail-content">
+      <view class="skeleton-detail-title skeleton-animate"></view>
+      <view class="skeleton-detail-price skeleton-animate"></view>
+      <view class="skeleton-detail-info">
+        <view class="skeleton-avatar skeleton-animate"></view>
+        <view class="skeleton-name skeleton-animate"></view>
+      </view>
+      <view class="skeleton-detail-desc skeleton-animate"></view>
+      <view class="skeleton-detail-desc skeleton-animate"></view>
+      <view class="skeleton-detail-desc short skeleton-animate"></view>
+    </view>
+  </block>
+
+  <!-- 卡片骨架屏 -->
+  <block wx:if="{{type === 'card'}}">
+    <view class="skeleton-card" wx:for="{{items}}" wx:key="index">
+      <view class="skeleton-card-image skeleton-animate"></view>
+      <view class="skeleton-card-title skeleton-animate"></view>
+      <view class="skeleton-card-text skeleton-animate"></view>
+    </view>
+  </block>
+</view>

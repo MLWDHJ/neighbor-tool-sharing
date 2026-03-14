@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "tool-card": "/components/tool-card/tool-card"
+  }
+}

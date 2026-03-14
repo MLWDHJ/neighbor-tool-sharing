@@ -1,0 +1,90 @@
+<view class="container">
+  <!-- 常见问题 -->
+  <view class="section">
+    <view class="section-title">常见问题</view>
+    <view class="faq-list">
+      <view 
+        class="faq-item {{expandedIndex === index ? 'expanded' : ''}}" 
+        wx:for="{{faqs}}" 
+        wx:key="id"
+      >
+        <view class="faq-question" bindtap="toggleFaq" data-index="{{index}}">
+          <text class="question-text">{{item.question}}</text>
+          <text class="arrow-icon">{{expandedIndex === index ? '∧' : '∨'}}</text>
+        </view>
+        <view class="faq-answer" wx:if="{{expandedIndex === index}}">
+          <text>{{item.answer}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系我们 -->
+  <view class="section">
+    <view class="section-title">联系我们</view>
+    <view class="contact-list">
+      <view class="contact-item" bindtap="showFeedbackModal">
+        <view class="contact-left">
+          <text class="contact-icon">📝</text>
+          <text class="contact-text">意见反馈</text>
+        </view>
+        <text class="contact-arrow">›</text>
+      </view>
+      <view class="contact-item" bindtap="callService">
+        <view class="contact-left">
+          <text class="contact-icon">📞</text>
+          <text class="contact-text">客服电话</text>
+        </view>
+        <text class="contact-value">400-123-4567</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="section">
+    <view class="section-title">关于</view>
+    <view class="about-content">
+      <view class="about-item">
+        <text class="about-label">版本号</text>
+        <text class="about-value">1.0.0</text>
+      </view>
+      <view class="about-desc">
+        邻里工具共享平台，让闲置工具流动起来，方便邻里互助。
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 反馈弹窗 -->
+<view class="modal-mask" wx:if="{{showFeedback}}" bindtap="hideFeedbackModal" />
+<view class="modal-content" wx:if="{{showFeedback}}">
+  <view class="modal-header">
+    <text class="modal-title">意见反馈</text>
+    <text class="modal-close" bindtap="hideFeedbackModal">×</text>
+  </view>
+  <view class="modal-body">
+    <textarea 
+      class="feedback-input"
+      placeholder="请描述您遇到的问题或建议..."
+      value="{{feedbackContent}}"
+      bindinput="onFeedbackInput"
+      maxlength="500"
+    />
+    <input 
+      class="contact-input"
+      placeholder="联系方式（选填）"
+      value="{{feedbackContact}}"
+      bindinput="onContactInput"
+    />
+  </view>
+  <view class="modal-footer">
+    <button class="cancel-btn" bindtap="hideFeedbackModal">取消</button>
+    <button 
+      class="submit-btn {{isSubmitting ? 'disabled' : ''}}" 
+      bindtap="submitFeedback"
+      disabled="{{isSubmitting}}"
+    >
+      {{isSubmitting ? '提交中...' : '提交'}}
+    </button>
+  </view>
+</view>

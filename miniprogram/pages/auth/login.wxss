@@ -1,0 +1,107 @@
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 80rpx 60rpx;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 120rpx;
+}
+
+.logo {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 40rpx;
+}
+
+.app-name {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-bottom: 16rpx;
+}
+
+.app-slogan {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.form-section {
+  background-color: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 60rpx 40rpx;
+}
+
+.input-group {
+  margin-bottom: 40rpx;
+}
+
+.label {
+  display: block;
+  font-size: 28rpx;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+
+.input {
+  width: 100%;
+  height: 88rpx;
+  padding: 0 24rpx;
+  border: 2rpx solid #E5E5E5;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+.code-input-wrapper {
+  display: flex;
+  gap: 20rpx;
+}
+
+.code-input {
+  flex: 1;
+}
+
+.send-code-btn {
+  width: 200rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  background-color: #4A90E2;
+  color: #FFFFFF;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  text-align: center;
+  padding: 0;
+}
+
+.send-code-btn.disabled {
+  background-color: #CCCCCC;
+}
+
+.login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background-color: #4A90E2;
+  color: #FFFFFF;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+  margin-top: 60rpx;
+}
+
+.login-btn.disabled {
+  background-color: #CCCCCC;
+}
+
+.tips {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999999;
+  margin-top: 40rpx;
+}
+
+.tips .link {
+  color: #4A90E2;
+}

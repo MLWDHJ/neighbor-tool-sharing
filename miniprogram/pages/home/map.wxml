@@ -1,0 +1,73 @@
+<view class="container">
+  <!-- 地图 -->
+  <map 
+    id="toolMap"
+    class="map"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    show-location
+    bindmarkertap="onMarkerTap"
+    bindregionchange="onRegionChange"
+  />
+
+  <!-- 顶部操作栏 -->
+  <view class="top-bar">
+    <view class="search-box" bindtap="switchToList">
+      <text class="search-icon">🔍</text>
+      <text class="search-text">搜索工具</text>
+    </view>
+  </view>
+
+  <!-- 切换按钮 -->
+  <view class="switch-btn" bindtap="switchToList">
+    <text class="switch-icon">📋</text>
+    <text class="switch-text">列表</text>
+  </view>
+
+  <!-- 定位按钮 -->
+  <view class="location-btn" bindtap="moveToLocation">
+    <text class="location-icon">📍</text>
+  </view>
+
+  <!-- 工具卡片 -->
+  <view class="tool-card-mask" wx:if="{{showToolCard}}" bindtap="closeToolCard" />
+  <view class="tool-card {{showToolCard ? 'show' : ''}}" wx:if="{{selectedTool}}">
+    <view class="card-header">
+      <view class="close-btn" bindtap="closeToolCard">×</view>
+    </view>
+    <view class="card-content" bindtap="goToDetail">
+      <image class="tool-image" src="{{selectedTool.images[0]}}" mode="aspectFill" />
+      <view class="tool-info">
+        <view class="tool-name">{{selectedTool.name}}</view>
+        <view class="tool-owner">
+          <image class="owner-avatar" src="{{selectedTool.ownerAvatar}}" />
+          <text class="owner-name">{{selectedTool.ownerNickname}}</text>
+        </view>
+        <view class="tool-meta">
+          <view class="tool-price">
+            <text wx:if="{{selectedTool.isFree}}" class="free-tag">免费</text>
+            <text wx:else class="price-text">¥{{selectedTool.rentFee}}/天</text>
+          </view>
+          <view class="tool-distance" wx:if="{{selectedTool.distance}}">
+            {{selectedTool.distance}}km
+          </view>
+        </view>
+      </view>
+      <view class="arrow-icon">›</view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-overlay" wx:if="{{loading}}">
+    <view class="loading-content">
+      <text class="loading-text">加载中...</text>
+    </view>
+  </view>
+
+  <!-- 空状态提示 -->
+  <view class="empty-tip" wx:if="{{!loading && tools.length === 0}}">
+    <text>附近暂无可借用的工具</text>
+  </view>
+</view>

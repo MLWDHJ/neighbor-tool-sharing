@@ -1,0 +1,80 @@
+<view class="container">
+  <!-- 工具信息卡片 -->
+  <view class="tool-card" wx:if="{{borrowInfo.tool}}">
+    <image class="tool-image" src="{{borrowInfo.tool.images[0]}}" mode="aspectFill" />
+    <view class="tool-info">
+      <view class="tool-name">{{borrowInfo.tool.name}}</view>
+      <view class="borrow-time">
+        借用时间：{{borrowInfo.startDate}} - {{borrowInfo.endDate}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 评分区域 -->
+  <view class="rating-section">
+    <view class="section-title">整体评价</view>
+    <view class="rating-stars">
+      <view 
+        class="star {{rating >= index + 1 ? 'active' : ''}}" 
+        wx:for="{{5}}" 
+        wx:key="index"
+        bindtap="selectRating"
+        data-rating="{{index + 1}}"
+      >
+        <text class="star-icon">{{rating >= index + 1 ? '★' : '☆'}}</text>
+      </view>
+    </view>
+    <view class="rating-text">
+      <text wx:if="{{rating === 5}}">非常满意</text>
+      <text wx:elif="{{rating === 4}}">满意</text>
+      <text wx:elif="{{rating === 3}}">一般</text>
+      <text wx:elif="{{rating === 2}}">不满意</text>
+      <text wx:elif="{{rating === 1}}">非常不满意</text>
+    </view>
+  </view>
+
+  <!-- 标签区域 -->
+  <view class="tags-section">
+    <view class="section-title">选择标签</view>
+    <view class="tags-list">
+      <view 
+        class="tag-item {{selectedTags.indexOf(item) > -1 ? 'active' : ''}}" 
+        wx:for="{{tags}}" 
+        wx:key="index"
+        bindtap="toggleTag"
+        data-tag="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 评价内容区域 -->
+  <view class="content-section">
+    <view class="section-header">
+      <view class="section-title">评价内容</view>
+      <view class="optional-tag">选填</view>
+    </view>
+    <view class="content-input-wrapper">
+      <textarea 
+        class="content-input"
+        placeholder="说说你的借用体验吧"
+        value="{{content}}"
+        bindinput="onContentInput"
+        maxlength="{{maxLength}}"
+      />
+      <view class="content-count">{{contentLength}}/{{maxLength}}</view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-section">
+    <button 
+      class="submit-btn {{isSubmitting ? 'disabled' : ''}}" 
+      bindtap="submitReview"
+      disabled="{{isSubmitting}}"
+    >
+      {{isSubmitting ? '提交中...' : '提交评价'}}
+    </button>
+  </view>
+</view>

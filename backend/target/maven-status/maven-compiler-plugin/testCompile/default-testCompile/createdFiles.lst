@@ -1,0 +1,17 @@
+com\neighbor\tool\service\MessageServicePropertyTest.class
+com\neighbor\tool\service\FileServicePropertyTest.class
+com\neighbor\tool\service\ToolServicePropertyTest.class
+com\neighbor\tool\service\ReviewServicePropertyTest.class
+com\neighbor\tool\service\CollectionServicePropertyTest.class
+com\neighbor\tool\service\UserServicePropertyTest.class
+com\neighbor\tool\service\StatisticsServicePropertyTest.class
+com\neighbor\tool\service\ToolManagementPropertyTest.class
+com\neighbor\tool\service\BorrowReturnPropertyTest.class
+com\neighbor\tool\service\SmsServicePropertyTest.class
+com\neighbor\tool\service\ToolListPropertyTest.class
+com\neighbor\tool\service\BorrowApprovalPropertyTest.class
+com\neighbor\tool\service\SearchHistoryServicePropertyTest.class
+com\neighbor\tool\service\BorrowServicePropertyTest.class
+com\neighbor\tool\service\CreditServicePropertyTest.class
+com\neighbor\tool\service\ToolDetailPropertyTest.class
+com\neighbor\tool\service\ToolListPropertyTest$LocationPoint.class

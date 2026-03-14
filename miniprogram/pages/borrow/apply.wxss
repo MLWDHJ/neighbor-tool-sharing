@@ -1,0 +1,226 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 120rpx;
+}
+
+/* 工具信息卡片 */
+.tool-card {
+  background: white;
+  padding: 32rpx;
+  margin-bottom: 16rpx;
+  display: flex;
+  gap: 24rpx;
+}
+
+.tool-image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
+}
+
+.tool-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tool-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.lender-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.lender-avatar {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+}
+
+.lender-name {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.tool-price {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ff6b35;
+}
+
+/* 表单区域 */
+.form-section {
+  background: white;
+  padding: 32rpx;
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+.required {
+  color: #ff6b35;
+}
+
+.form-item {
+  margin-bottom: 32rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.date-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+  padding: 0 24rpx;
+}
+
+.date-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.placeholder {
+  color: #999;
+}
+
+.arrow {
+  font-size: 40rpx;
+  color: #999;
+}
+
+.days-hint {
+  text-align: center;
+  font-size: 24rpx;
+  color: #ff6b35;
+  margin-top: 16rpx;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 160rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+/* 费用明细 */
+.fee-section {
+  background: #fff5f0;
+  padding: 32rpx;
+  margin-bottom: 16rpx;
+  border-radius: 16rpx;
+}
+
+.fee-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.fee-row:last-child {
+  margin-bottom: 0;
+  padding-top: 16rpx;
+  border-top: 2rpx solid #ffe5d9;
+}
+
+.fee-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.fee-value {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.total-label {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.total-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff6b35;
+}
+
+/* 温馨提示 */
+.tips {
+  background: white;
+  padding: 32rpx;
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.tips-icon {
+  font-size: 32rpx;
+  color: #ff6b35;
+}
+
+.tips-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 底部按钮 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 20rpx 32rpx;
+  box-shadow: 0 -2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.submit-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+  color: white;
+  font-size: 32rpx;
+  border-radius: 8rpx;
+  border: none;
+}
+
+.submit-btn::after {
+  border: none;
+}

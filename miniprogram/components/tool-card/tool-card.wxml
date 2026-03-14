@@ -1,0 +1,36 @@
+<!-- 工具卡片组件 -->
+<view class="tool-card" bindtap="onTap">
+  <image wx:if="{{!imgError}}" class="tool-image" src="{{displayImageUrl}}" mode="aspectFill" binderror="onImageError"></image>
+  <view wx:else class="tool-image tool-image-placeholder">
+    <text class="placeholder-icon">🛠️</text>
+    <text class="placeholder-text">暂无图片</text>
+  </view>
+  
+  <view class="tool-info">
+    <view class="tool-name">{{tool.name}}</view>
+    
+    <view class="tool-meta">
+      <text class="tool-category">{{categoryMap[tool.category]}}</text>
+      <text class="tool-condition">{{conditionMap[tool.condition]}}</text>
+    </view>
+    
+    <view class="tool-price">
+      <text wx:if="{{tool.isFree}}" class="price-free">免费</text>
+      <text wx:else class="price-value">¥{{tool.rentFee}}/天</text>
+      <text class="deposit">押金¥{{tool.deposit}}</text>
+    </view>
+    
+    <view class="tool-footer">
+      <view class="tool-distance">
+        <text class="icon-location">📍</text>
+        <text>{{distance}}</text>
+      </view>
+      
+      <view class="tool-status">
+        <text wx:if="{{tool.status === 'available'}}" class="tool-status-text status-available">可借用</text>
+        <text wx:elif="{{tool.status === 'borrowed'}}" class="tool-status-text status-borrowed">已借出</text>
+        <text wx:else class="tool-status-text status-offline">已下架</text>
+      </view>
+    </view>
+  </view>
+</view>

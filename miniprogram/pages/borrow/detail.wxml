@@ -1,0 +1,196 @@
+<view class="borrow-detail-page">
+  <scroll-view scroll-y class="content">
+    <!-- 状态卡片 -->
+    <view class="status-card">
+      <view class="status-badge {{statusClass}}">{{statusText}}</view>
+      <view class="status-time">{{createTime}}</view>
+    </view>
+
+    <!-- 工具信息 -->
+    <view class="section">
+      <view class="section-title">工具信息</view>
+      <view class="tool-info" bindtap="goToToolDetail">
+        <image class="tool-image" src="{{tool.images[0]}}" mode="aspectFill" />
+        <view class="tool-content">
+          <view class="tool-name">{{tool.name}}</view>
+          <view class="tool-category">{{tool.category}}</view>
+          <view class="tool-price">
+            <text wx:if="{{tool.isFree}}" class="free">免费</text>
+            <text wx:else class="price">¥{{tool.rentFee}}/天</text>
+          </view>
+        </view>
+        <text class="arrow-icon">›</text>
+      </view>
+    </view>
+
+    <!-- 借用人信息 -->
+    <view class="section" wx:if="{{isLender}}">
+      <view class="section-title">借用人信息</view>
+      <view class="user-info">
+        <image class="avatar" src="{{borrower.avatar}}" />
+        <view class="user-content">
+          <view class="user-name">{{borrower.nickname}}</view>
+          <view class="user-credit">
+            <text class="star-icon">⭐</text>
+            <text>信用分：{{borrower.creditScore}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 出借人信息 -->
+    <view class="section" wx:if="{{!isLender}}">
+      <view class="section-title">出借人信息</view>
+      <view class="user-info">
+        <image class="avatar" src="{{lender.avatar}}" />
+        <view class="user-content">
+          <view class="user-name">{{lender.nickname}}</view>
+          <view class="user-credit">
+            <text class="star-icon">⭐</text>
+            <text>信用分：{{lender.creditScore}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 借用信息 -->
+    <view class="section">
+      <view class="section-title">借用信息</view>
+      <view class="info-row">
+        <text class="label">借用时间</text>
+        <text class="value">{{startDate}} 至 {{endDate}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">借用天数</text>
+        <text class="value">{{days}}天</text>
+      </view>
+      <view class="info-row" wx:if="{{note}}">
+        <text class="label">借用说明</text>
+        <text class="value">{{note}}</text>
+      </view>
+    </view>
+
+    <!-- 费用信息 -->
+    <view class="section">
+      <view class="section-title">费用信息</view>
+      <view class="info-row">
+        <text class="label">租金</text>
+        <text class="value price">¥{{rentAmount}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">押金</text>
+        <text class="value">¥{{depositAmount}}</text>
+      </view>
+      <view class="info-row total">
+        <text class="label">总计</text>
+        <text class="value price">¥{{totalAmount}}</text>
+      </view>
+    </view>
+
+    <!-- 拒绝原因 -->
+    <view class="section" wx:if="{{status === 'rejected' && rejectReason}}">
+      <view class="section-title">拒绝原因</view>
+      <view class="reject-reason">{{rejectReason}}</view>
+    </view>
+
+    <!-- 归还信息 -->
+    <view class="section" wx:if="{{status === 'returned'}}">
+      <view class="section-title">归还信息</view>
+      <view class="info-row">
+        <text class="label">归还时间</text>
+        <text class="value">{{actualReturnDate}}</text>
+      </view>
+      <view class="info-row" wx:if="{{isDamaged}}">
+        <text class="label">工具状态</text>
+        <text class="value damaged">有损坏</text>
+      </view>
+      <view class="info-row" wx:if="{{damageNote}}">
+        <text class="label">损坏说明</text>
+        <text class="value">{{damageNote}}</text>
+      </view>
+      <view class="info-row" wx:if="{{deductAmount > 0}}">
+        <text class="label">扣除押金</text>
+        <text class="value price">¥{{deductAmount}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部操作按钮 -->
+  <view class="footer" wx:if="{{showActions}}">
+    <!-- 待处理状态 - 出借人 -->
+    <view class="actions" wx:if="{{status === 'pending' && isLender}}">
+      <button class="action-btn reject" bindtap="showRejectModal">拒绝</button>
+      <button class="action-btn approve" bindtap="approve">同意</button>
+    </view>
+
+    <!-- 进行中状态 - 借用人 -->
+    <view class="actions" wx:if="{{status === 'in_use' && !isLender}}">
+      <button class="action-btn primary" bindtap="markReturned">标记已归还</button>
+    </view>
+
+    <!-- 待确认归还状态 - 出借人 -->
+    <view class="actions" wx:if="{{status === 'returned' && isLender}}">
+      <button class="action-btn" bindtap="showConfirmModal">确认归还</button>
+    </view>
+
+    <!-- 已归还状态 - 可评价 -->
+    <view class="actions" wx:if="{{status === 'returned' && !isLender && !hasReviewed}}">
+      <button class="action-btn primary" bindtap="goToReview">评价</button>
+    </view>
+  </view>
+
+  <!-- 拒绝弹窗 -->
+  <view class="modal" wx:if="{{showRejectModal}}" bindtap="hideRejectModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-title">拒绝原因</view>
+      <textarea 
+        class="modal-textarea" 
+        placeholder="请输入拒绝原因（选填）" 
+        value="{{rejectReason}}"
+        bindinput="onRejectReasonInput"
+        maxlength="100"
+      />
+      <view class="modal-actions">
+        <button class="modal-btn cancel" bindtap="hideRejectModal">取消</button>
+        <button class="modal-btn confirm" bindtap="reject">确定</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 确认归还弹窗 -->
+  <view class="modal" wx:if="{{showConfirmModal}}" bindtap="hideConfirmModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-title">确认归还</view>
+      <view class="modal-form">
+        <view class="form-item">
+          <text class="label">工具是否损坏</text>
+          <switch checked="{{isDamaged}}" bindchange="onDamagedChange" color="#FF6B35" />
+        </view>
+        <view class="form-item" wx:if="{{isDamaged}}">
+          <text class="label">损坏说明</text>
+          <textarea 
+            class="textarea" 
+            placeholder="请描述损坏情况" 
+            value="{{damageNote}}"
+            bindinput="onDamageNoteInput"
+            maxlength="100"
+          />
+        </view>
+        <view class="form-item" wx:if="{{isDamaged}}">
+          <text class="label">扣除押金（元）</text>
+          <input 
+            class="input" 
+            type="digit" 
+            placeholder="请输入扣除金额" 
+            value="{{deductAmount}}"
+            bindinput="onDeductAmountInput"
+          />
+        </view>
+      </view>
+      <view class="modal-actions">
+        <button class="modal-btn cancel" bindtap="hideConfirmModal">取消</button>
+        <button class="modal-btn confirm" bindtap="confirmReturn">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

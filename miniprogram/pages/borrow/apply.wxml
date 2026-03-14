@@ -1,0 +1,101 @@
+<view class="container">
+  <!-- 工具信息卡片 -->
+  <view class="tool-card" wx:if="{{tool}}">
+    <image class="tool-image" src="{{tool.images[0]}}" mode="aspectFill" />
+    <view class="tool-info">
+      <view class="tool-name">{{tool.name}}</view>
+      <view class="lender-info">
+        <image class="lender-avatar" src="{{tool.lender.avatar}}" />
+        <text class="lender-name">{{tool.lender.nickname}}</text>
+      </view>
+      <view class="tool-price">
+        <text wx:if="{{tool.isFree}}">免费</text>
+        <text wx:else>¥{{tool.rentFee}}/天</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 借用时间选择 -->
+  <view class="time-section">
+    <view class="section-title">
+      <text>借用时间</text>
+      <text class="required">*</text>
+    </view>
+
+    <view class="time-item">
+      <text class="time-label">开始时间</text>
+      <picker mode="date" value="{{startDate}}" start="{{minDate}}" end="{{maxDate}}" bindchange="onStartDateChange">
+        <view class="time-picker">
+          <text class="{{startDate ? 'selected' : 'placeholder'}}">
+            {{startDate || '请选择开始时间'}}
+          </text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="time-item">
+      <text class="time-label">归还时间</text>
+      <picker mode="date" value="{{endDate}}" start="{{startDate || minDate}}" end="{{maxDate}}" bindchange="onEndDateChange">
+        <view class="time-picker">
+          <text class="{{endDate ? 'selected' : 'placeholder'}}">
+            {{endDate || '请选择归还时间'}}
+          </text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="days-tip" wx:if="{{borrowDays > 0}}">
+      共借用 {{borrowDays}} 天
+    </view>
+  </view>
+
+  <!-- 借用说明 -->
+  <view class="note-section">
+    <view class="section-title">
+      <text>借用说明</text>
+      <text class="optional">选填</text>
+    </view>
+
+    <textarea 
+      class="note-input" 
+      placeholder="请简单说明借用用途，如：周末挂画使用" 
+      maxlength="100"
+      value="{{note}}"
+      bindinput="onNoteInput"
+    />
+    <view class="char-count">{{note.length || 0}}/100</view>
+  </view>
+
+  <!-- 费用明细 -->
+  <view class="fee-section" wx:if="{{tool && borrowDays > 0}}">
+    <view class="section-title">费用明细</view>
+
+    <view class="fee-item">
+      <text class="fee-label">租金（{{borrowDays}}天）</text>
+      <text class="fee-value">¥{{tool.isFree ? 0 : tool.rentFee * borrowDays}}</text>
+    </view>
+
+    <view class="fee-item">
+      <text class="fee-label">押金（归还后退还）</text>
+      <text class="fee-value">¥{{tool.deposit || 0}}</text>
+    </view>
+
+    <view class="fee-total">
+      <text class="total-label">需支付</text>
+      <text class="total-value">¥{{(tool.isFree ? 0 : tool.rentFee * borrowDays) + (tool.deposit || 0)}}</text>
+    </view>
+  </view>
+
+  <!-- 温馨提示 -->
+  <view class="tip-section">
+    <text class="tip-icon">ℹ️</text>
+    <text class="tip-text">提交申请后，出借人将收到通知。同意后，请与出借人约定取还时间和地点。</text>
+  </view>
+
+  <!-- 底部提交按钮 -->
+  <view class="submit-bar">
+    <button class="submit-btn" bindtap="submit">提交申请</button>
+  </view>
+</view>

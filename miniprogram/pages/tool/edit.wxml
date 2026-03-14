@@ -1,0 +1,174 @@
+<view class="edit-tool-page">
+  <scroll-view scroll-y class="content">
+    <!-- 图片上传 -->
+    <view class="section">
+      <view class="section-title">工具图片（最多3张）</view>
+      <view class="image-upload">
+        <view class="image-item" wx:for="{{images}}" wx:key="index">
+          <image class="image" src="{{item}}" mode="aspectFill" />
+          <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">
+            <text class="delete-icon">✕</text>
+          </view>
+        </view>
+        <view class="upload-btn" wx:if="{{images.length < 3}}" bindtap="chooseImage">
+          <text class="upload-icon">📷</text>
+          <text class="upload-text">上传图片</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 基本信息 -->
+    <view class="section">
+      <view class="section-title">基本信息</view>
+      <view class="form-item">
+        <text class="label">工具名称 <text class="required">*</text></text>
+        <input 
+          class="input" 
+          placeholder="请输入工具名称（最多20字）" 
+          value="{{name}}"
+          bindinput="onNameInput"
+          maxlength="20"
+        />
+      </view>
+      <view class="form-item">
+        <text class="label">工具分类 <text class="required">*</text></text>
+        <picker 
+          mode="selector" 
+          range="{{categories}}" 
+          value="{{categoryIndex}}"
+          bindchange="onCategoryChange"
+        >
+          <view class="picker">
+            {{categories[categoryIndex] || '请选择分类'}}
+          </view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="label">购买价格 <text class="required">*</text></text>
+        <input 
+          class="input" 
+          type="digit" 
+          placeholder="请输入购买价格" 
+          value="{{price}}"
+          bindinput="onPriceInput"
+        />
+      </view>
+      <view class="form-item">
+        <text class="label">新旧程度 <text class="required">*</text></text>
+        <picker 
+          mode="selector" 
+          range="{{conditions}}" 
+          value="{{conditionIndex}}"
+          bindchange="onConditionChange"
+        >
+          <view class="picker">
+            {{conditions[conditionIndex] || '请选择新旧程度'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 借用设置 -->
+    <view class="section">
+      <view class="section-title">借用设置</view>
+      <view class="form-item">
+        <text class="label">是否收费</text>
+        <switch 
+          checked="{{isFree === false}}" 
+          bindchange="onFreeChange"
+          color="#FF6B35"
+        />
+      </view>
+      <view class="form-item" wx:if="{{!isFree}}">
+        <text class="label">租金（元/天） <text class="required">*</text></text>
+        <input 
+          class="input" 
+          type="digit" 
+          placeholder="请输入每天租金" 
+          value="{{rentFee}}"
+          bindinput="onRentFeeInput"
+          disabled="{{status === 'borrowed'}}"
+        />
+      </view>
+      <view class="form-item">
+        <text class="label">押金金额（元） <text class="required">*</text></text>
+        <input 
+          class="input" 
+          type="digit" 
+          placeholder="请输入押金金额" 
+          value="{{deposit}}"
+          bindinput="onDepositInput"
+          disabled="{{status === 'borrowed'}}"
+        />
+      </view>
+      <view class="form-item">
+        <text class="label">可借时长 <text class="required">*</text></text>
+        <picker 
+          mode="selector" 
+          range="{{durations}}" 
+          value="{{durationIndex}}"
+          bindchange="onDurationChange"
+        >
+          <view class="picker">
+            {{durations[durationIndex] || '请选择可借时长'}}
+          </view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="label">取还方式</text>
+        <view class="checkbox-group">
+          <label class="checkbox-item">
+            <checkbox value="pickup" checked="{{pickupMethods.includes('pickup')}}" bindtap="onPickupMethodChange" data-method="pickup" />
+            <text>上门自取</text>
+          </label>
+          <label class="checkbox-item">
+            <checkbox value="delivery" checked="{{pickupMethods.includes('delivery')}}" bindtap="onPickupMethodChange" data-method="delivery" />
+            <text>可送上门</text>
+          </label>
+        </view>
+      </view>
+    </view>
+
+    <!-- 工具描述 -->
+    <view class="section">
+      <view class="section-title">工具描述（选填）</view>
+      <textarea 
+        class="textarea" 
+        placeholder="请描述工具的使用方法、注意事项等（最多200字）" 
+        value="{{description}}"
+        bindinput="onDescriptionInput"
+        maxlength="200"
+      />
+      <view class="char-count">{{description.length}}/200</view>
+    </view>
+
+    <!-- 工具状态 -->
+    <view class="section" wx:if="{{status}}">
+      <view class="section-title">工具状态</view>
+      <view class="status-actions">
+        <button 
+          class="status-btn" 
+          wx:if="{{status === 'available'}}"
+          bindtap="toggleStatus"
+        >
+          下架工具
+        </button>
+        <button 
+          class="status-btn primary" 
+          wx:if="{{status === 'unavailable'}}"
+          bindtap="toggleStatus"
+        >
+          上架工具
+        </button>
+        <text class="status-hint" wx:if="{{status === 'borrowed'}}">
+          工具借用中，无法修改价格和押金
+        </text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部按钮 -->
+  <view class="footer">
+    <button class="submit-btn" bindtap="submit">保存修改</button>
+  </view>
+</view>

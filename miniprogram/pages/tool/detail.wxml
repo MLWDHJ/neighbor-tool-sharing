@@ -1,0 +1,113 @@
+<wxs module="utils">
+  var repeat = function(str, count) {
+    var result = '';
+    for (var i = 0; i < count; i++) {
+      result += str;
+    }
+    return result;
+  };
+  
+  module.exports = {
+    repeat: repeat
+  };
+</wxs>
+
+<view class="detail-container">
+  <!-- 图片轮播 -->
+  <swiper class="tool-images" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFFFFF">
+    <swiper-item wx:for="{{tool.images}}" wx:key="index">
+      <image class="tool-image" src="{{item}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 工具基本信息 -->
+  <view class="tool-info card">
+    <view class="tool-header">
+      <text class="tool-name">{{tool.name}}</text>
+      <view class="tool-status">
+        <text wx:if="{{tool.status === 'available'}}" class="status-available">可借用</text>
+        <text wx:elif="{{tool.status === 'borrowed'}}" class="status-borrowed">已借出</text>
+        <text wx:else class="status-offline">已下架</text>
+      </view>
+    </view>
+
+    <view wx:if="{{tool.status === 'borrowed' && tool.expectedReturnDate}}" class="expected-return">
+      <text class="expected-return-text">预计归还：{{tool.expectedReturnDate}}</text>
+    </view>
+
+    <view class="tool-meta">
+      <text class="tag">{{categoryMap[tool.category]}}</text>
+      <text class="tag">{{conditionMap[tool.condition]}}</text>
+    </view>
+
+    <view class="tool-price">
+      <view class="price-item">
+        <text class="label">租金</text>
+        <text wx:if="{{tool.isFree}}" class="value free">免费</text>
+        <text wx:else class="value">¥{{tool.rentFee}}/天</text>
+      </view>
+      <view class="price-item">
+        <text class="label">押金</text>
+        <text class="value">¥{{tool.deposit}}</text>
+      </view>
+      <view class="price-item">
+        <text class="label">最长借用</text>
+        <text class="value">{{tool.maxDays}}天</text>
+      </view>
+    </view>
+
+    <view class="tool-description">
+      <text class="section-title">工具描述</text>
+      <text class="description-text">{{tool.description}}</text>
+    </view>
+  </view>
+
+  <!-- 出借人信息 -->
+  <view class="lender-info card">
+    <text class="section-title">出借人信息</text>
+    <view class="lender-card" bindtap="viewLenderProfile">
+      <image class="lender-avatar" src="{{lender.avatar}}"></image>
+      <view class="lender-details">
+        <text class="lender-name">{{lender.nickname}}</text>
+        <view class="lender-meta">
+          <text class="credit-score">信用分：{{lender.creditScore}}</text>
+          <text class="location">{{lender.location}}</text>
+        </view>
+      </view>
+      <text class="arrow-icon">›</text>
+    </view>
+  </view>
+
+  <!-- 借用记录 -->
+  <view wx:if="{{borrowHistory.length > 0}}" class="borrow-history card">
+    <text class="section-title">借用记录（最近{{borrowHistory.length}}条）</text>
+    <view class="history-item" wx:for="{{borrowHistory}}" wx:key="id">
+      <view class="history-user">
+        <image class="user-avatar" src="{{item.borrowerAvatar}}"></image>
+        <text class="user-name">{{item.borrowerNickname}}</text>
+      </view>
+      <view class="history-info">
+        <view wx:if="{{item.rating}}" class="history-rating">
+          <text class="rating-stars">{{utils.repeat('★', item.rating)}}{{utils.repeat('☆', 5 - item.rating)}}</text>
+        </view>
+        <view class="history-date">
+          <text>{{item.startDate}} 至 {{item.endDate}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="action-btn" bindtap="toggleCollection">
+      <text class="action-icon">{{isCollected ? '⭐' : '☆'}}</text>
+      <text>{{isCollected ? '已收藏' : '收藏'}}</text>
+    </view>
+    <button wx:if="{{tool.status === 'available'}}" class="borrow-btn" bindtap="applyBorrow">
+      立即借用
+    </button>
+    <button wx:else class="borrow-btn disabled" disabled>
+      {{tool.status === 'borrowed' ? '已借出' : '已下架'}}
+    </button>
+  </view>
+</view>

@@ -1,0 +1,181 @@
+<view class="container">
+  <!-- 未登录状态 -->
+  <view class="profile-card" wx:if="{{!isLoggedIn}}">
+    <view class="profile-header login-prompt" bindtap="goToLogin">
+      <view class="avatar-placeholder">👤</view>
+      <view class="user-info">
+        <view class="nickname">点击登录</view>
+        <view class="phone">登录后享受更多服务</view>
+      </view>
+      <text class="login-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 已登录状态 - 个人信息卡片 -->
+  <view class="profile-card" wx:if="{{isLoggedIn}}">
+    <view class="profile-header" bindtap="goToProfile">
+      <image class="avatar" src="{{userInfo.avatar || 'https://api.dicebear.com/7.x/avataaars/png?seed=default'}}" />
+      <view class="user-info">
+        <view class="nickname">{{userInfo.nickname || '用户'}}</view>
+        <view class="phone">{{maskedPhone}}</view>
+        <view class="location" wx:if="{{userInfo.location}}">
+          <text class="location-icon">📍</text>
+          <text>{{userInfo.location}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 统计卡片 -->
+    <view class="stats-card" bindtap="goToCredit">
+      <view class="stat-item">
+        <view class="stat-value credit">{{userInfo.creditScore || 80}}</view>
+        <view class="stat-label">信用分</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value normal">{{stats.lendCount || 0}}</view>
+        <view class="stat-label">出借次数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value normal">{{stats.borrowCount || 0}}</view>
+        <view class="stat-label">借用次数</view>
+      </view>
+    </view>
+  </view>
+  <!-- 已登录状态结束 -->
+
+  <!-- 功能入口区域 -->
+  <view class="function-section">
+    <view class="function-grid">
+      <!-- 我的借用 -->
+      <view class="function-item" bindtap="goToBorrowList" data-tab="borrow">
+        <view class="function-icon">
+          <text class="icon-text">📥</text>
+        </view>
+        <text class="function-label">我的借用</text>
+        <view class="badge" wx:if="{{stats.borrowingCount > 0}}">{{stats.borrowingCount}}</view>
+      </view>
+
+      <!-- 我的出借 -->
+      <view class="function-item" bindtap="goToBorrowList" data-tab="lend">
+        <view class="function-icon">
+          <text class="icon-text">📤</text>
+        </view>
+        <text class="function-label">我的出借</text>
+        <view class="badge" wx:if="{{stats.pendingCount > 0}}">{{stats.pendingCount}}</view>
+      </view>
+
+      <!-- 我的收藏 -->
+      <view class="function-item" bindtap="goToCollection">
+        <view class="function-icon">
+          <text class="icon-text">❤️</text>
+        </view>
+        <text class="function-label">我的收藏</text>
+      </view>
+
+      <!-- 我的评价 -->
+      <view class="function-item" bindtap="goToReviews">
+        <view class="function-icon">
+          <text class="icon-text">⭐</text>
+        </view>
+        <text class="function-label">我的评价</text>
+      </view>
+
+      <!-- 实名认证 -->
+      <view class="function-item" bindtap="goToVerify">
+        <view class="function-icon">
+          <text class="icon-text">🆔</text>
+        </view>
+        <text class="function-label">实名认证</text>
+        <view class="verified-badge" wx:if="{{userInfo.isVerified}}">✓</view>
+      </view>
+
+      <!-- 我的钱包 -->
+      <view class="function-item" bindtap="goToWallet">
+        <view class="function-icon">
+          <text class="icon-text">💰</text>
+        </view>
+        <text class="function-label">我的钱包</text>
+      </view>
+
+      <!-- 邀请好友 -->
+      <view class="function-item" bindtap="inviteFriends">
+        <view class="function-icon">
+          <text class="icon-text">👥</text>
+        </view>
+        <text class="function-label">邀请好友</text>
+      </view>
+
+      <!-- 帮助中心 -->
+      <view class="function-item" bindtap="goToHelp">
+        <view class="function-icon">
+          <text class="icon-text">❓</text>
+        </view>
+        <text class="function-label">帮助中心</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 我的工具区域 -->
+  <view class="tools-section">
+    <view class="section-header">
+      <text class="section-title">我的工具</text>
+      <view class="view-all" bindtap="goToMyTools">
+        <text>查看全部</text>
+        <text class="arrow-icon">›</text>
+      </view>
+    </view>
+
+    <!-- 工具列表 -->
+    <scroll-view class="tools-scroll" scroll-x wx:if="{{myTools.length > 0}}">
+      <view class="tool-item" wx:for="{{myTools}}" wx:key="id" bindtap="goToToolDetail" data-id="{{item.id}}">
+        <image class="tool-image" src="{{item.images[0]}}" mode="aspectFill" />
+        <view class="tool-name">{{item.name}}</view>
+        <view class="tool-status {{item.status === 'available' ? 'status-available' : 'status-borrowed'}}">
+          {{item.status === 'available' ? '可借用' : '已借出'}}
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 空状态 -->
+    <view class="empty-tools" wx:if="{{myTools.length === 0}}">
+      <text class="empty-icon">📦</text>
+      <view class="empty-text">还没有发布工具</view>
+      <view class="publish-btn" bindtap="goToPublish">去发布</view>
+    </view>
+  </view>
+
+  <!-- 设置区域 -->
+  <view class="settings-section">
+    <view class="setting-item" bindtap="goToSettings">
+      <view class="setting-left">
+        <text class="setting-icon">⚙️</text>
+        <text class="setting-label">账号设置</text>
+      </view>
+      <text class="setting-arrow">›</text>
+    </view>
+
+    <view class="setting-item" bindtap="goToPrivacy">
+      <view class="setting-left">
+        <text class="setting-icon">🔒</text>
+        <text class="setting-label">隐私设置</text>
+      </view>
+      <text class="setting-arrow">›</text>
+    </view>
+
+    <view class="setting-item" bindtap="goToAbout">
+      <view class="setting-left">
+        <text class="setting-icon">ℹ️</text>
+        <text class="setting-label">关于我们</text>
+      </view>
+      <text class="setting-arrow">›</text>
+    </view>
+
+    <view class="setting-item" bindtap="logout">
+      <view class="setting-left">
+        <text class="setting-icon">🚪</text>
+        <text class="setting-label logout">退出登录</text>
+      </view>
+      <text class="setting-arrow">›</text>
+    </view>
+  </view>
+</view>

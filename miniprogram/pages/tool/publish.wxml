@@ -1,0 +1,108 @@
+<view class="container">
+  <!-- 图片上传 -->
+  <view class="form-section">
+    <text class="section-title">工具图片 <text class="required">*</text><text class="hint">最多3张</text></text>
+    <view class="image-upload">
+      <view class="image-item" wx:for="{{images}}" wx:key="index">
+        <image src="{{item}}" class="image" mode="aspectFill" />
+        <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</view>
+      </view>
+      <view wx:if="{{images.length < 3}}" class="upload-btn" bindtap="chooseImage">
+        <text class="upload-icon">+</text>
+        <text>添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <text class="section-title">基本信息</text>
+    
+    <view class="form-item">
+      <text class="label">工具名称 <text class="required">*</text></text>
+      <input class="input" placeholder="如：博世电钻" value="{{name}}" maxlength="20" bindinput="onNameInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">工具分类 <text class="required">*</text></text>
+      <picker class="picker" mode="selector" range="{{categoryList}}" range-key="label" value="{{categoryIndex}}" bindchange="onCategoryChange">
+        <view class="{{category ? 'picker-text' : 'placeholder'}}">
+          {{categoryLabel || '请选择'}}
+        </view>
+        <text class="arrow">›</text>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">购买价格 <text class="required">*</text></text>
+      <input class="input" placeholder="300" type="digit" value="{{price}}" bindinput="onPriceInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">新旧程度 <text class="required">*</text></text>
+      <view class="radio-group">
+        <view 
+          class="radio-item {{condition === item.value ? 'active' : ''}}" 
+          wx:for="{{conditionList}}" 
+          wx:key="value"
+          bindtap="onConditionTap"
+          data-value="{{item.value}}"
+        >
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 借用设置 -->
+  <view class="form-section">
+    <text class="section-title">借用设置</text>
+    
+    <view class="form-item">
+      <view class="switch-row">
+        <text class="label">是否收费</text>
+        <switch class="switch" checked="{{!isFree}}" bindchange="onFreeChange" color="#ff6b35" />
+      </view>
+    </view>
+
+    <view wx:if="{{!isFree}}" class="form-item">
+      <text class="label">租金</text>
+      <input class="input" placeholder="10" type="digit" value="{{rentFee}}" bindinput="onRentFeeInput" />
+      <text class="hint">元/天</text>
+    </view>
+
+    <view class="form-item">
+      <text class="label">押金金额 <text class="required">*</text></text>
+      <input class="input" placeholder="150" type="digit" value="{{deposit}}" bindinput="onDepositInput" />
+      <text class="hint">建议设置为购买价的30-50%</text>
+    </view>
+
+    <view class="form-item">
+      <text class="label">可借时长 <text class="required">*</text></text>
+      <picker class="picker" mode="selector" range="{{maxDaysList}}" range-key="label" value="{{maxDaysIndex}}" bindchange="onMaxDaysChange">
+        <view class="{{maxDays ? 'picker-text' : 'placeholder'}}">
+          {{maxDaysLabel || '请选择'}}
+        </view>
+        <text class="arrow">›</text>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 工具描述 -->
+  <view class="form-section">
+    <text class="section-title">工具描述 <text class="hint">选填</text></text>
+    <textarea 
+      class="textarea" 
+      placeholder="描述工具的特点、使用注意事项等" 
+      value="{{description}}"
+      maxlength="200"
+      bindinput="onDescriptionInput"
+    />
+    <view class="char-count">{{description.length}}/200</view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <button class="submit-btn" bindtap="submit">发布工具</button>
+  </view>
+</view>

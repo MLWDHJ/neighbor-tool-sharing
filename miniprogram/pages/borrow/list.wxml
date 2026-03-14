@@ -1,0 +1,95 @@
+<view class="container">
+  <!-- 顶部标签页 -->
+  <view class="tabs">
+    <view class="tab {{activeTab === 'borrow' ? 'active' : ''}}" bindtap="switchTab" data-tab="borrow">
+      我的借用
+    </view>
+    <view class="tab {{activeTab === 'lend' ? 'active' : ''}}" bindtap="switchTab" data-tab="lend">
+      我的出借
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <scroll-view class="status-filter" scroll-x>
+    <view class="filter-item {{statusFilter === '' ? 'active' : ''}}" bindtap="filterByStatus" data-status="">
+      全部
+    </view>
+    <view class="filter-item {{statusFilter === 'pending' ? 'active' : ''}}" bindtap="filterByStatus" data-status="pending">
+      待处理
+    </view>
+    <view class="filter-item {{statusFilter === 'in_use' ? 'active' : ''}}" bindtap="filterByStatus" data-status="in_use">
+      进行中
+    </view>
+    <view class="filter-item {{statusFilter === 'returned' ? 'active' : ''}}" bindtap="filterByStatus" data-status="returned">
+      已归还
+    </view>
+    <view class="filter-item {{statusFilter === 'cancelled' ? 'active' : ''}}" bindtap="filterByStatus" data-status="cancelled">
+      已取消
+    </view>
+    <view class="filter-item {{statusFilter === 'rejected' ? 'active' : ''}}" bindtap="filterByStatus" data-status="rejected">
+      已拒绝
+    </view>
+  </scroll-view>
+
+  <!-- 借用列表 -->
+  <scroll-view class="list-container" scroll-y bindscrolltolower="loadMore">
+    <view wx:if="{{list.length > 0}}">
+      <view class="borrow-card" wx:for="{{list}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+        <!-- 工具信息 -->
+        <view class="tool-info">
+          <image class="tool-image" src="{{item.tool.images[0]}}" mode="aspectFill" />
+          <view class="tool-detail">
+            <view class="tool-name">{{item.tool.name}}</view>
+            <view class="tool-category">{{item.tool.category}}</view>
+            <view class="tool-price">
+              <text wx:if="{{item.tool.isFree}}">免费</text>
+              <text wx:else>¥{{item.tool.rentFee}}/天</text>
+            </view>
+          </view>
+          <view class="status-badge status-{{item.status}}">{{item.statusText}}</view>
+        </view>
+
+        <!-- 用户信息 -->
+        <view class="user-info">
+          <image class="avatar" src="{{item.otherUser.avatar}}" />
+          <text class="nickname">{{item.otherUser.nickname}}</text>
+        </view>
+
+        <!-- 借用信息 -->
+        <view class="borrow-info">
+          <view class="info-row">
+            <text class="label">借用时间：</text>
+            <text class="value">{{item.startDate}} 至 {{item.endDate}}</text>
+          </view>
+          <view class="info-row">
+            <text class="label">借用天数：</text>
+            <text class="value">{{item.days}}天</text>
+          </view>
+          <view class="info-row">
+            <text class="label">总费用：</text>
+            <text class="value price">¥{{item.totalAmount}}</text>
+          </view>
+        </view>
+
+        <!-- 创建时间 -->
+        <view class="create-time">申请时间：{{item.createTime}}</view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{list.length === 0 && !loading}}" class="empty-state">
+      <text class="empty-icon">📝</text>
+      <text class="empty-text">暂无{{activeTab === 'borrow' ? '借用' : '出借'}}记录</text>
+    </view>
+
+    <!-- 加载状态 -->
+    <view wx:if="{{loading}}" class="loading">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 没有更多 -->
+    <view wx:if="{{!hasMore && list.length > 0}}" class="no-more">
+      <text>没有更多了</text>
+    </view>
+  </scroll-view>
+</view>

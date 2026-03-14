@@ -1,0 +1,183 @@
+.search-page {
+  min-height: 100vh;
+  background-color: #F5F5F5;
+}
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 36px;
+  background-color: #F0F0F0;
+  border-radius: 18px;
+  padding: 0 12px;
+}
+
+.search-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.clear-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+}
+
+.cancel-btn {
+  margin-left: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 搜索历史 */
+.search-history {
+  padding: 16px;
+  background-color: #fff;
+  margin-bottom: 12px;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.history-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.clear-history {
+  font-size: 12px;
+  color: #999;
+}
+
+.history-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.history-tag {
+  padding: 6px 12px;
+  background-color: #F5F5F5;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* 热门搜索 */
+.hot-search {
+  padding: 16px;
+  background-color: #fff;
+}
+
+.hot-header {
+  margin-bottom: 12px;
+}
+
+.hot-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.hot-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hot-tag {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.hot-rank {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #FF6B35;
+  margin-right: 12px;
+}
+
+.hot-keyword {
+  font-size: 14px;
+  color: #333;
+}
+
+/* 搜索结果 */
+.search-results {
+  padding: 12px 16px;
+}
+
+.result-count {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+.tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.empty-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.empty-hint {
+  font-size: 12px;
+  color: #CCC;
+}
+
+/* 加载中 */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  font-size: 14px;
+  color: #999;
+}

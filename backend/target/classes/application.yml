@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: neighbor-tool-sharing
+  
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/neighbor_tool_sharing?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123123
+  
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+jwt:
+  secret: neighbor-tool-sharing-secret-key-2024-very-long-secret
+  expiration: 604800000  # 7 days in milliseconds
+
+server:
+  port: 8080
+
+spring.servlet.multipart:
+  max-file-size: 5MB
+  max-request-size: 10MB
+
+file:
+  upload-dir: uploads
+
+logging:
+  level:
+    com.neighbor.tool: debug
+    org.springframework.security: debug

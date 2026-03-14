@@ -1,0 +1,86 @@
+<view class="search-page">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrapper">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索电钻、帐篷、行李箱..." 
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearch"
+        focus="{{true}}"
+      />
+      <text 
+        wx:if="{{keyword}}" 
+        class="clear-icon" 
+        bindtap="clearKeyword"
+      >✕</text>
+    </view>
+    <text class="cancel-btn" bindtap="goBack">取消</text>
+  </view>
+
+  <!-- 搜索历史 -->
+  <view class="search-history" wx:if="{{!keyword && searchHistory.length > 0}}">
+    <view class="history-header">
+      <text class="history-title">搜索历史</text>
+      <text class="clear-history" bindtap="clearHistory">清空</text>
+    </view>
+    <view class="history-tags">
+      <view 
+        class="history-tag" 
+        wx:for="{{searchHistory}}" 
+        wx:key="index"
+        bindtap="onHistoryTap"
+        data-keyword="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门搜索 -->
+  <view class="hot-search" wx:if="{{!keyword && hotSearch.length > 0}}">
+    <view class="hot-header">
+      <text class="hot-title">热门搜索</text>
+    </view>
+    <view class="hot-tags">
+      <view 
+        class="hot-tag" 
+        wx:for="{{hotSearch}}" 
+        wx:key="index"
+        bindtap="onHotTap"
+        data-keyword="{{item.keyword}}"
+      >
+        <text class="hot-rank">{{index + 1}}</text>
+        <text class="hot-keyword">{{item.keyword}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索结果 -->
+  <view class="search-results" wx:if="{{keyword && searchResults.length > 0}}">
+    <view class="result-count">找到 {{searchResults.length}} 个工具</view>
+    <view class="tool-list">
+      <tool-card 
+        wx:for="{{searchResults}}" 
+        wx:key="id"
+        tool="{{item}}"
+        bindtap="goToDetail"
+        data-id="{{item.id}}"
+      />
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{keyword && searchResults.length === 0 && !loading}}">
+    <text class="empty-icon">🔍</text>
+    <text class="empty-text">未找到相关工具</text>
+    <text class="empty-hint">试试其他关键词吧</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>搜索中...</text>
+  </view>
+</view>

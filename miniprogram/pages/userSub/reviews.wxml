@@ -1,0 +1,60 @@
+<view class="container">
+  <!-- 标签栏 -->
+  <view class="tab-bar">
+    <view 
+      class="tab-item {{activeTab === 'received' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="received"
+    >
+      收到的评价
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'given' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="given"
+    >
+      我的评价
+    </view>
+  </view>
+
+  <!-- 评价列表 -->
+  <view class="review-list" wx:if="{{reviews.length > 0}}">
+    <view class="review-item" wx:for="{{reviews}}" wx:key="id">
+      <view class="review-header">
+        <image class="reviewer-avatar" src="{{item.reviewerAvatar}}" />
+        <view class="reviewer-info">
+          <view class="reviewer-name">{{item.reviewerNickname}}</view>
+          <view class="review-time">{{item.createTime}}</view>
+        </view>
+        <view class="review-rating">
+          <text class="star" wx:for="{{item.rating}}" wx:key="*this" wx:for-item="star">★</text>
+        </view>
+      </view>
+
+      <view class="review-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+        <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+      </view>
+
+      <view class="review-content" wx:if="{{item.comment}}">
+        {{item.comment}}
+      </view>
+
+      <view class="review-tool" bindtap="goToToolDetail" data-tool-id="{{item.toolId}}" wx:if="{{item.toolName}}">
+        <text class="tool-label">相关工具：</text>
+        <text class="tool-name">{{item.toolName}}</text>
+        <text class="tool-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && reviews.length === 0}}">
+    <text class="empty-icon">⭐</text>
+    <text class="empty-text">暂无评价</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

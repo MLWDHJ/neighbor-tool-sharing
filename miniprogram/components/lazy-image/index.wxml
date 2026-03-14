@@ -1,0 +1,17 @@
+<view class="lazy-image-container {{customClass}}" bindtap="onTap">
+  <!-- 占位图 -->
+  <view class="placeholder" wx:if="{{!loaded && !error}}">
+    <view class="placeholder-icon">🖼️</view>
+  </view>
+  
+  <!-- 实际图片 -->
+  <image 
+    wx:if="{{inView && currentSrc}}"
+    class="lazy-image {{loaded ? 'loaded' : ''}}"
+    src="{{currentSrc}}"
+    mode="{{mode}}"
+    lazy-load="{{true}}"
+    bindload="onLoad"
+    binderror="onError"
+  />
+</view>
